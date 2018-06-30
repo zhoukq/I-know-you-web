@@ -52,6 +52,16 @@ const userConfig = (state, action) => {
                     content: action.payload.content
                 }
             }
+        case messageTypes.joinRequested:
+        if(action.payload.joined){
+            return {
+                role: action.payload.role,
+                mask: Immutable.fromJS(action.payload.mask),
+                room: action.payload.room,
+                content: action.payload.content,
+                joined: true
+            }
+        }
     }
 
     return state

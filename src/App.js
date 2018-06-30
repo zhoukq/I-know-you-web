@@ -29,7 +29,9 @@ class App extends Component {
     this.getMask = bind(this.getMask, this)
     this.saveResource = bind(this.saveResource, this)
     this.reloadContent = bind(this.reloadContent, this)
-    this.resetMask = bind(this.resetMask,this)
+    this.resetMask = bind(this.resetMask, this)
+    this.enterRoom = bind(this.enterRoom, this)
+    this.joinRequested = bind(this.joinRequested,this)
   }
 
   componentWillMount() {
@@ -60,21 +62,28 @@ class App extends Component {
     this.props.actions.saveResource(data)
   }
 
-  reloadContent(room){
+  reloadContent(room) {
     this.props.actions.reloadContent(room)
   }
 
-  resetMask(room){
+  resetMask(room) {
     this.props.actions.resetMask(room)
   }
 
+  enterRoom(room, role) {
+    this.props.actions.enterRoom(room, role)
+  }
+
+  joinRequested(){
+    this.props.actions.joinRequested()
+  }
   render() {
     return (
       <div>
-        <ConfiWindow roleOnChange={this.roleOnChange} roomOnChange={this.roomOnChange} getContent={this.getContent} getMask={this.getMask} />
+        <ConfiWindow joinRequested={this.joinRequested} enterRoom={this.enterRoom} roleOnChange={this.roleOnChange} roomOnChange={this.roomOnChange} getContent={this.getContent} getMask={this.getMask} />
         <Matrix updateMask={this.updateMask} />
         {/* <Data saveResource={this.saveResource} /> */}
-        <Reload reloadContent={this.reloadContent} resetMask={this.resetMask}/>
+        <Reload reloadContent={this.reloadContent} resetMask={this.resetMask} />
       </div >
     )
   }

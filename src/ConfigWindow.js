@@ -34,6 +34,7 @@ class ConfigWindow extends Component {
             });
             this.props.getContent(this.props.room)
             this.props.getMask(this.props.room, this.props.role)
+            this.props.enterRoom(this.props.room, this.props.role)
         } else {
             this.setState({ errorVisible: true })
         }
@@ -54,7 +55,7 @@ class ConfigWindow extends Component {
     render() {
         return (<Modal
             title="Configuration"
-            visible={this.state.modalVisible}
+            visible={this.state.modalVisible && !this.props.joined}
             onOk={this.handleOk.bind(this)}
         >
             {this.state.errorVisible ? (
@@ -88,7 +89,8 @@ class ConfigWindow extends Component {
 const mapStateToProps = (state) => {
     return {
         room: state.get('userConfig').room,
-        role: state.get('userConfig').role
+        role: state.get('userConfig').role,
+        joined: state.get('userConfig').joined
     }
 }
 

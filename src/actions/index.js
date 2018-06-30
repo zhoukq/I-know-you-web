@@ -59,7 +59,7 @@ export function saveResource(data) {
 
 export function reloadContent(room) {
   return (dispatch, getState, { emit }) => {
-    emit(messageTypes.reloadContent, { 'content':'','room': room })
+    emit(messageTypes.reloadContent, { 'content': '', 'room': room })
   }
 }
 
@@ -69,3 +69,14 @@ export function resetMask(room) {
   }
 }
 
+export function enterRoom(room, role) {
+  return (dispatch, getState, { emit }) => {
+    emit(messageTypes.enterRoom, { 'room': room, 'role': role })
+  }
+}
+
+export function joinRequested() {
+  return (dispatch, getState, { emit }) => {
+    emit(messageTypes.joinRequested)
+  }
+}
