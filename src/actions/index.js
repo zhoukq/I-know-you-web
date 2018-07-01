@@ -69,14 +69,20 @@ export function resetMask(room) {
   }
 }
 
-export function enterRoom(room, role) {
+export function enterRoom(room, role, team) {
   return (dispatch, getState, { emit }) => {
-    emit(messageTypes.enterRoom, { 'room': room, 'role': role })
+    emit(messageTypes.enterRoom, { 'room': room, 'role': role, 'team': team })
   }
 }
 
 export function joinRequested() {
   return (dispatch, getState, { emit }) => {
     emit(messageTypes.joinRequested)
+  }
+}
+
+export function teamOnChange(team) {
+  return (dispatch, getState) => {
+    dispatch({ type: actionTypes.CHANGE_TEAM, payload: team })
   }
 }

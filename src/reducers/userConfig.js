@@ -53,15 +53,20 @@ const userConfig = (state, action) => {
                 }
             }
         case messageTypes.joinRequested:
-        if(action.payload.joined){
-            return {
-                role: action.payload.role,
-                mask: Immutable.fromJS(action.payload.mask),
-                room: action.payload.room,
-                content: action.payload.content,
-                joined: true
+            if (action.payload.joined) {
+                return {
+                    role: action.payload.role,
+                    mask: Immutable.fromJS(action.payload.mask),
+                    room: action.payload.room,
+                    content: action.payload.content,
+                    joined: true
+                }
             }
-        }
+        case actionTypes.CHANGE_TEAM:
+            return {
+                ...state,
+                team: action.payload
+            }
     }
 
     return state

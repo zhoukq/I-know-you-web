@@ -24,7 +24,8 @@ class ConfigWindow extends Component {
             modalVisible: true,
             errorVisible: false,
             roomValue: 0,
-            roleValue: PLAYER
+            roleValue: DIRECTOR,
+            teamValue: RED
         });
     }
 
@@ -36,7 +37,7 @@ class ConfigWindow extends Component {
             });
             this.props.getContent(this.props.room)
             this.props.getMask(this.props.room, this.props.role)
-            this.props.enterRoom(this.props.room, this.props.role)
+            this.props.enterRoom(this.props.room, this.props.role, this.props.team)
         } else {
             this.setState({ errorVisible: true })
         }
@@ -64,6 +65,13 @@ class ConfigWindow extends Component {
         }
     }
 
+    handleTeamOnChange(e) {
+        if (e.target.value != undefined) {
+            this.setState({ teamValue: e.target.value })
+            this.props.teamOnChange(e.target.value)
+        }
+    }
+
     render() {
         return (<Modal
             title="Configuration"
@@ -77,7 +85,7 @@ class ConfigWindow extends Component {
                 <div>
                     <Alert
                         message="Error"
-                        description="please add room number and choose your role"
+                        description="please add room number(>0) and choose your role"
                         type="error"
                     />
                 </div>
@@ -90,9 +98,18 @@ class ConfigWindow extends Component {
                 </div>
                 <div style={{ marginTop: 16 }}>
                     <Row type="flex" justify="center">
-                        <RadioGroup onChange={this.handleRoleOnChange.bind(this)} defaultValue={PLAYER} value={this.state.roleValue}>
+                        <RadioGroup onChange={this.handleRoleOnChange.bind(this)} defaultValue={DIRECTOR} value={this.state.roleValue}>
                             <RadioButton value={DIRECTOR}>Director</RadioButton>
                             <RadioButton value={PLAYER}>Player</RadioButton>
+                        </RadioGroup>
+                    </Row>
+                </div>
+                <div style={{ marginTop: 16 }}>
+                    <Row type="flex" justify="center">
+                        <RadioGroup onChange={this.handleTeamOnChange.bind(this)} defaultValue={RED} value={this.state.teamValue}>
+                            <RadioButton value={RED}>Red</RadioButton>
+                            <RadioButton value={GREEN}>Green</RadioButton>
+                            <RadioButton value={YELLOW}>Yellow</RadioButton>
                         </RadioGroup>
                     </Row>
                 </div>
@@ -105,7 +122,8 @@ const mapStateToProps = (state) => {
     return {
         room: state.get('userConfig').room,
         role: state.get('userConfig').role,
-        joined: state.get('userConfig').joined
+        joined: state.get('userConfig').joined,
+        team: state.get('userConfig').team
     }
 }
 
