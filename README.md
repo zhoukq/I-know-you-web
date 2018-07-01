@@ -15,5 +15,4 @@ npm i
 # start a webpack dev watch build
 npm run start
 ```
-You need [server](https://github.com/zhoukq/I-know-you) to run the whole app
-
+You need [server](https://github.com/zhoukq/I-know-you) to run the whole app, please clone the repo in server side.
