@@ -7,7 +7,7 @@ import { InputNumber } from 'antd';
 import { Row, Col } from 'antd';
 import { Alert } from 'antd';
 import * as config from './common/config'
-const { DIRECTOR, PLAYER } = config
+const { DIRECTOR, PLAYER, RED, GREEN, YELLOW } = config
 
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
@@ -22,7 +22,9 @@ class ConfigWindow extends Component {
     componentWillMount() {
         this.setState({
             modalVisible: true,
-            errorVisible: false
+            errorVisible: false,
+            roomValue: 0,
+            roleValue: PLAYER
         });
     }
 
@@ -40,14 +42,24 @@ class ConfigWindow extends Component {
         }
     }
 
+    handleReset(e) {
+        this.setState({
+            ... this.state,
+            roomValue: 0,
+            roleValue: PLAYER
+        })
+    }
+
     handleRoleOnChange(e) {
         if (e.target.value != undefined) {
+            this.setState({ roleValue: e.target.value })
             this.props.roleOnChange(e.target.value)
         }
     }
 
     handleRoomOnChange(e) {
         if (e != undefined && e > 0) {
+            this.setState({ roomValue: e })
             this.props.roomOnChange(e)
         }
     }
@@ -57,6 +69,9 @@ class ConfigWindow extends Component {
             title="Configuration"
             visible={this.state.modalVisible && !this.props.joined}
             onOk={this.handleOk.bind(this)}
+            onCancel={this.handleReset.bind(this)}
+            closable={false}
+            cancelText={'Reset'}
         >
             {this.state.errorVisible ? (
                 <div>
@@ -70,12 +85,12 @@ class ConfigWindow extends Component {
             <div>
                 <div>
                     <Row type="flex" justify="center">
-                        <InputNumber placeholder="room number" min={0} max={9999999} onChange={this.handleRoomOnChange.bind(this)} />
+                        <InputNumber placeholder="room number" min={0} max={9999999} onChange={this.handleRoomOnChange.bind(this)} value={this.state.roomValue} />
                     </Row>
                 </div>
                 <div style={{ marginTop: 16 }}>
                     <Row type="flex" justify="center">
-                        <RadioGroup onChange={this.handleRoleOnChange.bind(this)}>
+                        <RadioGroup onChange={this.handleRoleOnChange.bind(this)} defaultValue={PLAYER} value={this.state.roleValue}>
                             <RadioButton value={DIRECTOR}>Director</RadioButton>
                             <RadioButton value={PLAYER}>Player</RadioButton>
                         </RadioGroup>
