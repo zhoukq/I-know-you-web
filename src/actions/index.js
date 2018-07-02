@@ -86,3 +86,9 @@ export function teamOnChange(team) {
     dispatch({ type: actionTypes.CHANGE_TEAM, payload: team })
   }
 }
+
+export function clickWrongBox(room,team){
+  return (dispatch, getState, { emit }) => {
+    emit(messageTypes.clickWrongBox, { 'room': room, 'team': team })
+  }
+}

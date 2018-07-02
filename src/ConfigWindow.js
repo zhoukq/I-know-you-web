@@ -47,7 +47,7 @@ class ConfigWindow extends Component {
         this.setState({
             ... this.state,
             roomValue: 0,
-            roleValue: PLAYER
+            roleValue: DIRECTOR
         })
     }
 

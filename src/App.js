@@ -33,6 +33,7 @@ class App extends Component {
     this.enterRoom = bind(this.enterRoom, this)
     this.joinRequested = bind(this.joinRequested, this)
     this.teamOnChange = bind(this.teamOnChange, this)
+    this.clickWrongBox = bind(this.clickWrongBox, this)
   }
 
   componentWillMount() {
@@ -82,11 +83,16 @@ class App extends Component {
   joinRequested() {
     this.props.actions.joinRequested()
   }
+
+  clickWrongBox(room, team) {
+    this.props.actions.clickWrongBox(room, team)
+  }
+
   render() {
     return (
       <div>
         <ConfiWindow teamOnChange={this.teamOnChange} joinRequested={this.joinRequested} enterRoom={this.enterRoom} roleOnChange={this.roleOnChange} roomOnChange={this.roomOnChange} getContent={this.getContent} getMask={this.getMask} />
-        <Matrix updateMask={this.updateMask} />
+        <Matrix  clickWrongBox={this.clickWrongBox} updateMask={this.updateMask} />
         {/* <Data saveResource={this.saveResource} /> */}
         <Reload reloadContent={this.reloadContent} resetMask={this.resetMask} />
       </div >

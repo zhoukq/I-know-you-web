@@ -55,11 +55,17 @@ class Matrix extends Component {
 
     handleOpenMask = (e) => {
         if (this.props.mask != null) {
+            const selected = this.state.selectedKey
             let mask = this.props.mask.map((v, i) => {
-                return i == this.state.selectedKey ? false : v
+                return i == selected ? false : v
             })
             this.props.updateMask(this.props.room, mask)
             this.setState({ visible: false })
+            //check if the answer is right
+            if (this.props.content[selected].team != this.props.team) {
+                console.log('gg')
+                this.props.clickWrongBox(this.props.room, this.props.team)
+            }
         }
     }
     render() {
@@ -72,13 +78,13 @@ class Matrix extends Component {
                                 let key = i * 5 + j;
                                 if (this.props.mask.get(key) === false || this.props.role === DIRECTOR) {
                                     if (v.team === 'red') {
-                                        return <td key={key} id={key} className={this.handleMask(this.props.role,'red-team',key)}>{v.text}</td>
+                                        return <td key={key} id={key} className={this.handleMask(this.props.role, 'red-team', key)}>{v.text}</td>
                                     } else if (v.team === 'green') {
-                                        return <td key={key} id={key} className={this.handleMask(this.props.role,'green-team',key)}>{v.text}</td>
+                                        return <td key={key} id={key} className={this.handleMask(this.props.role, 'green-team', key)}>{v.text}</td>
                                     } else if (v.team === 'useless') {
-                                        return <td key={key} id={key} className={this.handleMask(this.props.role,'useless',key)}>{v.text}</td>
+                                        return <td key={key} id={key} className={this.handleMask(this.props.role, 'useless', key)}>{v.text}</td>
                                     } else {
-                                        return <td key={key} id={key} className={this.handleMask(this.props.role,'bomb',key)}>{v.text}</td>
+                                        return <td key={key} id={key} className={this.handleMask(this.props.role, 'bomb', key)}>{v.text}</td>
                                     }
                                 } else {
                                     return <td key={key} id={key} onClick={this.onBlankClick.bind(this)}>{v.text}</td>
@@ -103,7 +109,8 @@ const mapStateToProps = (state) => {
         content: state.get('userConfig').content,
         role: state.get('userConfig').role,
         room: state.get('userConfig').room,
-        mask: state.get('userConfig').mask
+        mask: state.get('userConfig').mask,
+        team: state.get('userConfig').team
     }
 }
 
