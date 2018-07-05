@@ -14,6 +14,7 @@ const userConfig = (state, action) => {
                     mask: Immutable.fromJS(playerMask),
                     room: state.room
                 }
+                break
         case messageTypes.updateMask:
             if (action.payload.room == state.room) {
                 return {
@@ -21,16 +22,19 @@ const userConfig = (state, action) => {
                     mask: Immutable.fromJS(action.payload.mask),
                 }
             }
+            break
         case actionTypes.ADD_ROOM:
             return {
                 ...state,
                 room: action.payload
             }
+            break
         case actionTypes.GET_MASK:
             return {
                 ...state,
                 mask: Immutable.fromJS(action.payload.mask),
             }
+            break
         case messageTypes.resetMask:
             if (action.payload.room == state.room) {
                 return {
@@ -38,6 +42,7 @@ const userConfig = (state, action) => {
                     mask: Immutable.fromJS(action.payload.mask),
                 }
             }
+            break
         case actionTypes.GET_CONTENT:
             if (action.payload.room == state.room) {
                 return {
@@ -45,6 +50,7 @@ const userConfig = (state, action) => {
                     content: action.payload.content
                 }
             }
+            break
         case messageTypes.reloadContent:
             if (action.payload.room == state.room) {
                 return {
@@ -52,6 +58,7 @@ const userConfig = (state, action) => {
                     content: action.payload.content
                 }
             }
+            break
         case messageTypes.joinRequested:
         if(action.payload.joined){
             return {
@@ -61,6 +68,7 @@ const userConfig = (state, action) => {
                 content: action.payload.content,
                 joined: true
             }
+            break
         }
     }
 
