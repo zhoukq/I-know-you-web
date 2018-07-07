@@ -19,7 +19,7 @@ module.exports = {
   // we'll output everything to /output
   output: {
     path: outputDir,
-    filename: 'app.min-[hash:6].js' // the [hash:6] bit here helps us control browser caching
+    filename: 'app-[hash:6].min.js' // the [hash:6] bit here helps us control browser caching
   },
   plugins: [
     // don't emit assets with errors
@@ -27,7 +27,7 @@ module.exports = {
     // creates a vendor.js file will all our external dependencies - this can be aggressively cached
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
-      filename: 'vendor.min-[hash:6].js',
+      filename: 'vendor.min.js',
       minChunks: Infinity
     }),
     // writes out our index.html
