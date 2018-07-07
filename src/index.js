@@ -1,4 +1,4 @@
-import 'babel-polyfill'
+
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
@@ -10,7 +10,7 @@ import App from './App'
 import rootReducer from './reducers'
 import { init as websocketInit, emit } from './actions/websocket'
 import { playerMask, directorMask,PLAYER } from './common/config'
-import './index.css'
+import './index.scss'
 import Immutable from 'immutable'
 
 const initialState = new Map()
