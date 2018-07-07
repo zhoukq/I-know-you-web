@@ -23,13 +23,20 @@ module.exports = {
   // we'll output everything to /output
   output: {
     path: outputDir,
-    filename: 'app-[hash:6].min.js' // the [hash:6] bit here helps us control browser caching
+    filename: '[name].min.js'
   },
   optimization: {
-    splitChunks: {
-      // include all types of chunks
-      chunks: 'all'
-    }
+	minimize: mode === 'production',
+	splitChunks: {
+		cacheGroups: {
+			vendor: {
+				test: /[\\/]node_modules[\\/]/,
+				name: 'vendor',
+				enforce: true,
+				chunks: 'all'
+			}
+		}
+	}
   },
   plugins: [
     // don't emit assets with errors
@@ -40,14 +47,12 @@ module.exports = {
       template: path.join(__dirname, '/index.html.ejs'),
       inject: true,
       appMountId: 'root',
-      mobile: true,
-      minify: {
-        collapseWhitespace: true
-      }
+	  mobile: true,
+	  hash: true,
 	}),
 	new MiniCssExtractPlugin({
 		filename: '[name].css',
-		chunkFilename: '[id].css',
+		chunkFilename: '[name].css',
 	})
   ],
   module: {

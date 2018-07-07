@@ -1,8 +1,6 @@
 const webpack = require('webpack')
 const configBase = require('./webpack.config.base')
 
-configBase.optimization.minimize = true
-
 const plugins = [
   // let react know to ignore debugging info
   new webpack.DefinePlugin({

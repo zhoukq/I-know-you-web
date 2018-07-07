@@ -2,8 +2,6 @@ const webpack = require('webpack')
 const BellOnBundlerErrorPlugin = require('bell-on-bundler-error-plugin')
 const configBase = require('./webpack.config.base')
 
-configBase.optimization.minimize = false
-
 const plugins = [
   new BellOnBundlerErrorPlugin(), // beeps on compile errors
   // let react know not to optimize / ignore debugging info/errors
