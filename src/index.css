@@ -1,6 +1,13 @@
 /* 整体设置 */
 *{margin:0px;padding:0px;}
 
+.display{
+  text-align: center;
+  font-size: medium;
+  margin-bottom: 8%
+
+}
+
 .calendar-body-box{
   border-bottom: 1px solid #ddd;
 }
@@ -50,4 +57,8 @@
 .upload {
   width: 100%;
   margin-top: 10%;
+}
+
+.freeze {
+  background: dimgray;
 }

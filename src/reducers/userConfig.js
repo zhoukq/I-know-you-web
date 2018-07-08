@@ -10,9 +10,9 @@ const userConfig = (state, action) => {
                 role: action.payload,
                 mask: Immutable.fromJS(directorMask),
             } : {
+                    ...state,
                     role: action.payload,
                     mask: Immutable.fromJS(playerMask),
-                    room: state.room
                 }
             break
         case messageTypes.updateMask:
@@ -40,13 +40,15 @@ const userConfig = (state, action) => {
                 return {
                     ...state,
                     mask: Immutable.fromJS(action.payload.mask),
+                    operable: true
                 }
             }
         case actionTypes.GET_CONTENT:
             if (action.payload.room == state.room) {
                 return {
                     ...state,
-                    content: action.payload.content
+                    content: action.payload.content,
+                    operable: true
                 }
             }
             break
@@ -61,12 +63,14 @@ const userConfig = (state, action) => {
         case messageTypes.joinRequested:
             if (action.payload.joined && !state.joined) {
                 return {
+                    ...state,
                     role: action.payload.role,
                     mask: Immutable.fromJS(action.payload.mask),
                     room: action.payload.room,
                     team: action.payload.team,
                     content: action.payload.content,
-                    joined: true
+                    joined: true,
+                    operable: action.payload.operable
                 }
             }
             break
@@ -79,9 +83,15 @@ const userConfig = (state, action) => {
         case messageTypes.clickWrongBox:
             if (action.payload.room == state.room) {
                 if (action.payload.team == state.team) {
-                    console.log('freeze')
+                    return {
+                        ...state,
+                        operable: false
+                    }
                 } else {
-                    console.log('unfreeze')
+                    return {
+                        ...state,
+                        operable: true
+                    }
                 }
             }
             break

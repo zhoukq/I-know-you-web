@@ -8,6 +8,7 @@ import Matrix from './Matrix'
 import ConfiWindow from './ConfigWindow'
 import Data from './Data'
 import Reload from './Reload'
+import Display from './Display'
 
 const styles = {
   row: {
@@ -91,6 +92,7 @@ class App extends Component {
   render() {
     return (
       <div>
+        <Display/>
         <ConfiWindow teamOnChange={this.teamOnChange} joinRequested={this.joinRequested} enterRoom={this.enterRoom} roleOnChange={this.roleOnChange} roomOnChange={this.roomOnChange} getContent={this.getContent} getMask={this.getMask} />
         <Matrix  clickWrongBox={this.clickWrongBox} updateMask={this.updateMask} />
         {/* <Data saveResource={this.saveResource} /> */}

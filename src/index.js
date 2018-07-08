@@ -23,7 +23,7 @@ const initialState = new Map()
       { 'text': '17', 'team': 'red' }, { 'text': '18', 'team': 'red' }, { 'text': '19', 'team': 'red' }, { 'text': '20', 'team': 'red' },
       { 'text': '21', 'team': 'useless' }, { 'text': '22', 'team': 'useless' }, { 'text': '23', 'team': 'useless' }, { 'text': '24', 'team': 'useless' },
       { 'text': '25', 'team': 'useless' },
-    ], ), 'joined': false, 'team': 'red'
+    ], ), 'joined': false, 'team': 'red', 'operable': true
   })
 
 function startUp() {
