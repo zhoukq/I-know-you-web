@@ -8,7 +8,7 @@ import thunkMiddleware from 'redux-thunk'
 import App from './App'
 import rootReducer from './reducers'
 import { init as websocketInit, emit } from './actions/websocket'
-import { playerMask, directorMask, PLAYER } from './common/config'
+import { playerMask, directorMask, DIRECTOR } from './common/config'
 import './index.scss'
 import Immutable from 'immutable'
 
