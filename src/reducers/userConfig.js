@@ -10,11 +10,11 @@ const userConfig = (state, action) => {
                 role: action.payload,
                 mask: Immutable.fromJS(directorMask),
             } : {
+                    ...state,
                     role: action.payload,
                     mask: Immutable.fromJS(playerMask),
-                    room: state.room
                 }
-                break
+            break
         case messageTypes.updateMask:
             if (action.payload.room == state.room) {
                 return {
@@ -40,6 +40,7 @@ const userConfig = (state, action) => {
                 return {
                     ...state,
                     mask: Immutable.fromJS(action.payload.mask),
+                    operable: true
                 }
             }
             break
@@ -47,7 +48,8 @@ const userConfig = (state, action) => {
             if (action.payload.room == state.room) {
                 return {
                     ...state,
-                    content: action.payload.content
+                    content: action.payload.content,
+                    operable: true
                 }
             }
             break
@@ -60,16 +62,40 @@ const userConfig = (state, action) => {
             }
             break
         case messageTypes.joinRequested:
-        if(action.payload.joined){
-            return {
-                role: action.payload.role,
-                mask: Immutable.fromJS(action.payload.mask),
-                room: action.payload.room,
-                content: action.payload.content,
-                joined: true
+            if (action.payload.joined && !state.joined) {
+                return {
+                    ...state,
+                    role: action.payload.role,
+                    mask: Immutable.fromJS(action.payload.mask),
+                    room: action.payload.room,
+                    team: action.payload.team,
+                    content: action.payload.content,
+                    joined: true,
+                    operable: action.payload.operable
+                }
             }
             break
-        }
+        case actionTypes.CHANGE_TEAM:
+            return {
+                ...state,
+                team: action.payload
+            }
+            break
+        case messageTypes.clickWrongBox:
+            if (action.payload.room == state.room) {
+                if (action.payload.team == state.team) {
+                    return {
+                        ...state,
+                        operable: false
+                    }
+                } else {
+                    return {
+                        ...state,
+                        operable: true
+                    }
+                }
+            }
+            break
     }
 
     return state
