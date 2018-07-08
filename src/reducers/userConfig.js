@@ -43,6 +43,7 @@ const userConfig = (state, action) => {
                     operable: true
                 }
             }
+            break
         case actionTypes.GET_CONTENT:
             if (action.payload.room == state.room) {
                 return {

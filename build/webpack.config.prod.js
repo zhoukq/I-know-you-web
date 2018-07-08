@@ -9,12 +9,7 @@ const plugins = [
       'NODE_ENV': JSON.stringify('production')
     }
   }),
-  new webpack.optimize.OccurrenceOrderPlugin(true),
-  new webpack.optimize.UglifyJsPlugin({
-    compress: {
-      warnings: false
-    }
-  })
+  new webpack.optimize.OccurrenceOrderPlugin(true)
 ].concat(configBase.plugins)
 
 module.exports = Object.assign({}, configBase, { plugins })

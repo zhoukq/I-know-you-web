@@ -1,12 +1,16 @@
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const pkg = require('../package.json')
 
 const srcDir = path.join(__dirname, '/../src')
 const outputDir = path.join(__dirname, '/../output')
 
+const mode = process.env.NODE_ENV === 'development' ? 'development' : 'production'
+
 module.exports = {
+  mode: mode,
   // root directory used to resolve paths
   context: srcDir,
   // Store/Load compiler state from/to a json file. This will result in persistent ids of modules and chunks.
@@ -19,32 +23,40 @@ module.exports = {
   // we'll output everything to /output
   output: {
     path: outputDir,
-    filename: 'app.min-[hash:6].js' // the [hash:6] bit here helps us control browser caching
+    filename: '[name].min.js'
+  },
+  optimization: {
+	minimize: mode === 'production',
+	splitChunks: {
+		cacheGroups: {
+			vendor: {
+				test: /[\\/]node_modules[\\/]/,
+				name: 'vendor',
+				enforce: true,
+				chunks: 'all'
+			}
+		}
+	}
   },
   plugins: [
     // don't emit assets with errors
     new webpack.NoEmitOnErrorsPlugin(),
-    // creates a vendor.js file will all our external dependencies - this can be aggressively cached
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      filename: 'vendor.min-[hash:6].js',
-      minChunks: Infinity
-    }),
     // writes out our index.html
     new HtmlWebpackPlugin({
       title: 'I know you',
       template: path.join(__dirname, '/index.html.ejs'),
       inject: true,
       appMountId: 'root',
-      mobile: true,
-      minify: {
-        collapseWhitespace: true
-      }
-    })
+	  mobile: true,
+	  hash: true,
+	}),
+	new MiniCssExtractPlugin({
+		filename: '[name].css',
+		chunkFilename: '[name].css',
+	})
   ],
   module: {
-    loaders: [
-      // transforms es2015 and jsx into es5
+    rules: [
       {
         test: [ /\.js$/ ],
         exclude: /node_modules/,
@@ -52,17 +64,49 @@ module.exports = {
           srcDir,
           path.join(srcDir, '/../../common/')
         ],
-        loader: 'babel-loader',
-        query: {
-          // fix per https://github.com/babel/babel-loader/issues/166#issuecomment-160866946
-          presets: [
-            require.resolve('babel-preset-es2015'),
-            require.resolve('babel-preset-react'),
-            require.resolve('babel-preset-stage-0')
-          ]
-        }
-      },
-      { test: /\.css$/, loader: "style-loader!css-loader" }
+		use: {
+			loader: 'babel-loader',
+			options: mode === 'production' ? {
+				presets: ['babel-preset-env', 'babel-preset-stage-0']
+			} : {}
+		},
+	  },
+	  {
+		test: /\.css$/,
+		use: [
+			MiniCssExtractPlugin.loader,
+			{
+				loader: 'css-loader',
+				options: {
+					url: false,
+					minimize: mode === 'production',
+					sourceMap: mode === 'development',
+				}
+			},
+		],
+	  },
+      {
+		test: /\.scss$/,
+		exclude: /node_modules/,
+		use: [
+			MiniCssExtractPlugin.loader,
+			{
+				loader: 'css-loader',
+				options: {
+					url: false,
+					minimize: mode === 'production',
+					sourceMap: mode === 'development',
+				}
+			},
+			{
+				loader: 'sass-loader',
+				options: {
+					url: false,
+					sourceMap: mode === 'development',
+				}
+			},
+		],
+	  }
     ]
   },
   resolve: {

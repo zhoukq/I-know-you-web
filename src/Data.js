@@ -1,4 +1,4 @@
-import 'babel-polyfill'
+
 import React, { Component } from 'react'
 import { Modal } from 'antd'
 import { Input } from 'antd';

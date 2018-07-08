@@ -1,16 +1,15 @@
-import 'babel-polyfill'
+
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { List, Map } from 'immutable'
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
 import thunkMiddleware from 'redux-thunk'
-import { createLogger } from 'redux-logger'
 import App from './App'
 import rootReducer from './reducers'
 import { init as websocketInit, emit } from './actions/websocket'
-import { playerMask, directorMask, DIRECTOR } from './common/config'
-import './index.css'
+import { playerMask, directorMask, PLAYER } from './common/config'
+import './index.scss'
 import Immutable from 'immutable'
 
 const initialState = new Map()
@@ -28,12 +27,10 @@ const initialState = new Map()
 
 function startUp() {
   const middleware = [thunkMiddleware.withExtraArgument({ emit })]
-  // use the logger in development mode - this is set in webpack.config.dev.js
-  if (__DEV__) {
-    middleware.push(createLogger())
-  }
 
-  const store = createStore(rootReducer, initialState, applyMiddleware(...middleware))
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+  const store = createStore(rootReducer, initialState, composeEnhancers(applyMiddleware(...middleware)))
   websocketInit(store) // setup websocket listeners etc
 
   return store
